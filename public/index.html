@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <title>CPU Viz</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <!-- You can change the theme colors from here -->
+    <link href="css/colors/blue.css" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="fix-header fix-sidebar card-no-border">
+
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
+    </div>
+ 
+    <div id="main-wrapper">
+     
+        <header class="topbar">
+
+        </header>
+
+        <div class="page-wrapper">
+            
+            <div class="container-fluid">
+                          
+                <div class="row">
+                    <div class="col-sm-12">
+                        
+                        <div class="card">
+                            <div class="card-block">
+                                
+                                <h4 class="card-title">Processes</h4>
+                                <div class="flex-center table-responsive m-t-40">
+                                    <table class="table stylish-table">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">Process ID</th>
+                                                <th>Arrival Time</th>
+                                                <th>Burst Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="process_table">
+                                            <!-- <tr>
+                                                <td style="width:50px;"><span class="round round-success">1</span></td>
+                                                <td>
+                                                    <h3>Id</h3></td>
+                                                <td>
+                                                    <h3>3</h3>
+                                                </td>
+                                                <td>
+                                                    <h3>4</h3>
+                                                </td>
+                                            </tr> -->
+
+                                            
+                                        </tbody>
+                                    </table>
+                                    <div class="row text-center">
+                                            <div id="buttons" class="col-sm-3">
+                                                    <div data-toggle="modal" data-target="#myModal" class="btn btn-lg btn-primary">Add A Process</div>
+                                            </div> 
+                                            <div id="buttons" class="col-sm-3">
+                                                    <div data-toggle="modal" data-target="#myModalRemove" onclick="populateRemove()" class="btn btn-lg btn-danger">Remove A Process</div>
+                                            </div> 
+                                            <div id="buttons" class="col-sm-3">
+                                                    <div id="set" class="btn btn-lg btn-info">Prepare Queue</div>
+                                            </div>
+                                            <div id="buttons" class="col-sm-3">
+                                                    <div id="go" class="btn btn-lg btn-success">Start Visualisation</div>
+                                            </div>
+                                    </div>
+                                    
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+           
+
+                <div id="queue" class="row">
+                        <!-- Column -->
+                        <div class="col-sm-12">
+                            <h2>
+                                Process Queue
+                            </h2>
+                        </div>
+                        <!-- <div class="col-sm-2">
+                            <div class="card">
+                                <div class="card-block">
+                                    <h4 class="card-title">Process 2</h4>
+                                    
+                                    <span class="text-success">80%</span>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 80%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- Column -->
+                        <!-- Column -->
+                        <!-- <div class="col-sm-2">
+                            <div class="card">
+                                <div class="card-block">
+                                    <h4 class="card-title">Process 1</h4>
+                                    
+                                    <span class="text-info">30%</span>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: 90%; height: 6px;" aria-valuenow="22" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- Column -->
+                </div>
+                <div class="flex-center container-fluid ">
+                    <div id="time" class="text-center p-t-20">
+                        <h1>
+                            Current Time: <strong id="timer">0</strong>
+                        </h1>
+                    </div>
+                </div>
+
+
+            </div>
+        
+            <footer class="footer text-center">
+                    <i class="fa fa-2x fa-github m-r-10" aria-hidden="true"></i>    <a href="https://www.github.com/sulphurgfx/CpuViz">github.com/sulphurgfx</a>
+            </footer>
+            
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+        
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add a process</h4>
+                </div>
+                <div class="modal-body">
+                        <div class="card">
+                                <div class="card-block">
+                                    <form class="form-horizontal form-material">
+                                        <div class="form-group">
+                                            <label class="col-md-12">Process ID </label>
+                                            <div class="col-md-12">
+                                                <input id="pid" type="text" class="form-control form-control-line">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                                <label class="col-md-12">Arrival Time</label>
+                                                <div class="col-md-12">
+                                                    <input id="pat" type="number" class="form-control form-control-line">
+                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                                <label class="col-md-12">Burst Time</label>
+                                                <div class="col-md-12">
+                                                    <input id="pbt" type="number" class="form-control form-control-line">
+                                                </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="processAdd" data-dismiss="modal">Add</button>
+                </div>
+            </div>
+        
+            </div>
+    </div>
+
+    <div id="myModalRemove" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+        
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Remove a process</h4>
+                </div>
+                <div class="modal-body">
+                        <div class="card">
+                                <div class="card-block">
+                                    <form class="form-horizontal form-material">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">Select Process to remove</label>
+                                            <div class="col-sm-12">
+                                                <select id="select" class="form-control form-control-line">
+                                                    
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                    </form>
+                                </div>
+                            </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="removeProcess()"data-dismiss="modal">Remove</button>
+                </div>
+            </div>
+        
+            </div>
+    </div>
+
+    <script src="../assets/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="../assets/plugins/bootstrap/js/tether.min.js"></script>
+    <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="js/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <!--Custom JavaScript -->
+    <script src="js/custom.min.js"></script>
+    <script src="js/process.js"></script>
+  
+    <script src="../assets/plugins/flot/jquery.flot.js"></script>
+    <script src="../assets/plugins/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+    <script src="js/flot-data.js"></script>
+
+    <script src="../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    <script>
+        $(document).ready(()=>{
+            populateTable();
+        });
+    </script>
+</body>
+
+</html>
